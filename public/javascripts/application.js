@@ -3,7 +3,7 @@ class ShoppingManager extends React.Component {
     return (
     <div>
       <p>Welcome to the Shop!</p>
-      <ProductManager />
+      <ProductManager product_data={product_data}/>
     </div>
     );
   }
@@ -12,19 +12,20 @@ class ShoppingManager extends React.Component {
 class ProductManager extends React.Component {
     render () {
         return (
-            <ProductList />
+            <ProductList product_data={this.props.product_data}/>
         );
     }
 }
 
 class ProductList extends React.Component {
     render () {
+        let products = this.props.product_data.map((product, index) => {
+                        return <Product key={product.title + '-' + index}title={product.title} price={product.price} quantity={product.quantity} />
+                      });
         return (
-        <div>
-            <Product />
-            <Product />
-            <Product />
-        </div>
+          <div>
+            {products}
+          </div>
         );
     }
 }
@@ -32,9 +33,8 @@ class ProductList extends React.Component {
 class Product extends React.Component {
     render () {
         return (
-            <div>
+            <div className="product">
                 <p>{this.props.title} - {this.props.price} x {this.props.quantity}</p>
-
             </div>
         );
     }
