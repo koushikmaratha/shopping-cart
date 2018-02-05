@@ -30,9 +30,35 @@ class ShoppingManager extends React.Component {
     });
   }
 
+
+  removeFromCart = (id) => {
+
+      let new_products = this.state.product_data.map((item) => {
+        if (item.id === id){
+         let new_product = Object.assign({}, item)
+          new_product.quantity += 1
+          return new_product
+        } else {
+          return item;
+        }
+      })
+
+      let new_cart = this.state.cart_items.filter((item) => {
+        return item.id !== id
+      })
+
+      this.setState(prevState => {
+        return {
+          product_data: new_products,
+          cart_items: new_cart
+        }
+      })
+    }
+
+
   render() {
     return (
-    <div>
+    <main>
       <header className="header">
         <h1>Welcome to the Shop!</h1>
       </header>
@@ -43,8 +69,9 @@ class ShoppingManager extends React.Component {
       />
       <CartManager 
         cart_items={this.state.cart_items}
+        removeFromCart={this.removeFromCart}
       />
-    </div>
+    </main>
     );
   }
 }
@@ -101,7 +128,8 @@ class Product extends React.Component {
 class CartManager extends React.Component {
   render() {
     return (
-      <CartItemList cart_items={this.props.cart_items}/>
+      <CartItemList removeFromCart={this.props.removeFromCart} 
+                    cart_items={this.props.cart_items}/>
     );
   }
 }
@@ -113,11 +141,12 @@ class CartItemList extends React.Component {
     }, 0)
   }
   render() {
-    let cart_items = this.props.cart_items.map(function(item, index) {
+    let cart_items = this.props.cart_items.map((item, index) => {
       return <CartItem key={item + '-' + index}
                        id={item.id}
                        title={item.title}
                        price={item.price}
+                       removeFromCart={this.props.removeFromCart}
               />
     });
 
@@ -134,10 +163,15 @@ class CartItemList extends React.Component {
 }
 
 class CartItem extends React.Component {
+  removeFromCart = (e) => {
+    e.preventDefault();
+    this.props.removeFromCart(this.props.id)
+  }
   render() {
     return (
       <div className="cart">
         <p>{this.props.title} - {this.props.price}</p>
+        <button className="button" onClick={this.removeFromCart}>Remove </button>
       </div>
     );
   }
