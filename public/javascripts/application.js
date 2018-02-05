@@ -25,13 +25,17 @@ class ShoppingManager extends React.Component {
 
     let cartItems = this.state.cart_items.slice(0).concat(toAddToCart);
 
-    this.setState({product_data: remainingProducts, cart_items: cartItems});
+    this.setState(prevState => {
+      return {product_data: remainingProducts, cart_items: cartItems}
+    });
   }
 
   render() {
     return (
     <div>
-      <p>Welcome to the Shop!</p>
+      <header className="header">
+        <h1>Welcome to the Shop!</h1>
+      </header>
       <ProductManager 
         product_data={this.state.product_data}
         add_to_cart={this.addToCart}
@@ -86,7 +90,7 @@ class Product extends React.Component {
     return (
       <div className="product">
         <p>{this.props.title} - ${this.props.price} x {this.props.quantity}</p>
-        <button onClick={this.handleAddToCartClick}>
+        <button className="button" onClick={this.handleAddToCartClick}>
         Add to cart
         </button>
       </div>
