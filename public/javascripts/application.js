@@ -1,4 +1,4 @@
-class Application extends React.Component {
+class ShoppingManager extends React.Component {
   render() {
     return (
     <div>
@@ -39,11 +39,6 @@ class Product extends React.Component {
         );
     }
 }
-
-
-
-
-
 
 ReactDOM.render(
   <ShoppingManager />,
