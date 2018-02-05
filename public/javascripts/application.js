@@ -1,9 +1,13 @@
 class ShoppingManager extends React.Component {
+  addToCart(product) {
+
+  }
   render() {
     return (
     <div>
       <p>Welcome to the Shop!</p>
       <ProductManager product_data={product_data}/>
+      <CartManager />
     </div>
     );
   }
@@ -36,6 +40,8 @@ class Product extends React.Component {
       <div className="product">
         <p>{this.props.title} - {this.props.price} x {this.props.quantity}</p>
       </div>
+      <button onClick={this.addToCart}>
+      </button>
     );
   }
 }
@@ -52,7 +58,7 @@ class CartItemList extends React.Component {
   render() {
     return (
       <div>
-        <h3>Title</h3>
+        <h3>Cart</h3>
         <CartItem />
         <CartItem />
         <CartItem />
