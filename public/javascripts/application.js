@@ -89,19 +89,25 @@ class Product extends React.Component {
 class CartManager extends React.Component {
   render() {
     return (
-      <CartItemList />
+      <CartItemList cart_items={this.props.cart_items}/>
     );
   }
 }
 
 class CartItemList extends React.Component {
   render() {
+    let cart_items = this.props.cart_items.map(function(item, index) {
+      return <CartItem key={item + '-' + index}
+                       id={item.id}
+                       title={item.title}
+                       price={item.price}
+              />
+    });
+
     return (
       <div>
         <h3>Cart</h3>
-        <CartItem />
-        <CartItem />
-        <CartItem />
+        {cart_items}
       </div>
     );
   }
@@ -111,7 +117,7 @@ class CartItem extends React.Component {
   render() {
     return (
       <div className="cart">
-        <p>{this.props.title} - {this.props.price * this.props.quantity}</p>
+        <p>{this.props.title} - {this.props.price}</p>
       </div>
     );
   }
