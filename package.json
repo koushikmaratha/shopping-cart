@@ -1,0 +1,15 @@
+{
+  "name": "the_shop",
+  "version": "1.1.0",
+  "author": "NF",
+  "scripts": {
+    "e2e": "nightwatch",
+    "start": "npm run server",
+    "server": "live-server public --host=localhost --port=3000 --middleware=./disable-browser-cache.js"
+  },
+  "private": true,
+  "devDependencies": {
+    "concurrently": "2.2.0",
+    "live-server": "git://github.com/acco/live-server.git"
+  }
+}
