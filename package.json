@@ -3,7 +3,6 @@
   "version": "1.1.0",
   "author": "NF",
   "scripts": {
-    "e2e": "nightwatch",
     "start": "npm run server",
     "server": "live-server public --host=localhost --port=3000 --middleware=./disable-browser-cache.js"
   },
