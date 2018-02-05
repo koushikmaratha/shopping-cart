@@ -13,8 +13,14 @@ class ShoppingManager extends React.Component {
       return product.id === id;
     });
 
-    let remainingProducts = this.state.product_data.filter(function(product) {
-      return product.id !== id;
+    let remainingProducts = this.state.product_data.map(function(product) {
+      if (product.id === id){
+        let new_product = Object.assign({}, product)
+        new_product.quantity -= 1
+        return new_product;
+      } else {
+        return product;
+      }
     });
 
     let cartItems = this.state.cart_items.slice(0).concat(toAddToCart);
@@ -71,13 +77,15 @@ class ProductList extends React.Component {
 class Product extends React.Component {
   handleAddToCartClick = (e) => {
     e.preventDefault();
-    this.props.add_to_cart(this.props.id);
+    if (this.props.quantity > 0){
+      this.props.add_to_cart(this.props.id);
+    };
   }
 
   render () {
     return (
       <div className="product">
-        <p>{this.props.title} - {this.props.price} x {this.props.quantity}</p>
+        <p>{this.props.title} - ${this.props.price} x {this.props.quantity}</p>
         <button onClick={this.handleAddToCartClick}>
         Add to cart
         </button>
@@ -95,6 +103,11 @@ class CartManager extends React.Component {
 }
 
 class CartItemList extends React.Component {
+  totalPrice = () => {
+    return this.props.cart_items.reduce((accumulator, item) => {
+      return accumulator += item.price;
+    }, 0)
+  }
   render() {
     let cart_items = this.props.cart_items.map(function(item, index) {
       return <CartItem key={item + '-' + index}
@@ -108,6 +121,9 @@ class CartItemList extends React.Component {
       <div>
         <h3>Cart</h3>
         {cart_items}
+        <div>
+         Total: ${this.totalPrice()}
+        </div>
       </div>
     );
   }
