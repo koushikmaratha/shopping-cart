@@ -55,7 +55,7 @@ header h2 {
   position: relative;
 }
 
-.product h3 {
+h3 {
   font-size: 18px;
   margin-bottom: 6px;
 }
@@ -72,13 +72,13 @@ header h2 {
   color: red;
 }
 
-.product .edit-form {
+.product .edit-form, .add-form {
   margin-top: 20px;
   border-top: 1px solid #ccc;
   padding-top: 10px;
 }
 
-.product .edit-form .input-group {
+.input-group {
   padding: 5px 0 5px 0;
 }
 
@@ -111,7 +111,7 @@ header h2 {
   float: right;
 }
 
-.product .actions {
+.actions {
   margin-top: 20px;
 }
 
@@ -131,15 +131,15 @@ header h2 {
   cursor: pointer;
 }
 
-.product .edit-form {
+form {
   width: 400px;
 }
 
-.product .edit-form .input-group input {
+.input-group input {
   float: right;
 }
 
-.product .edit-form label {
+.input-group label {
   margin-right: 10px;
 }
 
@@ -152,6 +152,18 @@ input[type="text"] {
 input[type="text"]:focus {
   outline: none;
   border-color: #07575b;
+}
+
+.add-form h3, .add-form form {
+  display: none;
+}
+
+.add-form.visible .add-product-button {
+  display: none;
+}
+
+.add-form.visible h3, .add-form.visible form {
+  display: block;
 }
 
 table td, th {
