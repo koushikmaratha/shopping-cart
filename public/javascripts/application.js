@@ -32,7 +32,6 @@ class ShoppingManager extends React.Component {
 
 
   removeFromCart = (id) => {
-
       let new_products = this.state.product_data.map((item) => {
         if (item.id === id){
          let new_product = Object.assign({}, item)
@@ -55,6 +54,15 @@ class ShoppingManager extends React.Component {
       })
     }
 
+  emptyCart = () => {
+    this.setState(prevState => {
+      return {
+        cart_items: []
+      }
+    })
+
+  }
+
 
   render() {
     return (
@@ -70,6 +78,7 @@ class ShoppingManager extends React.Component {
       <CartManager 
         cart_items={this.state.cart_items}
         removeFromCart={this.removeFromCart}
+        emptyCart={this.emptyCart}
       />
     </main>
     );
@@ -126,11 +135,18 @@ class Product extends React.Component {
 }
 
 class CartManager extends React.Component {
+  emptyCart = (e) => {
+    e.preventDefault();
+    this.props.emptyCart();
+  }
   render() {
     return (
-      <CartItemList removeFromCart={this.props.removeFromCart} 
-                    cart_items={this.props.cart_items}/>
-    );
+      <div>
+        <CartItemList removeFromCart={this.props.removeFromCart} 
+                      cart_items={this.props.cart_items}/>
+        <button className="button" onClick={this.emptyCart}>Empty Cart </button>
+    </div>
+    )
   }
 }
 
