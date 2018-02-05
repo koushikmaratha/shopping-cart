@@ -1,13 +1,39 @@
 class ShoppingManager extends React.Component {
-  addToCart(product) {
+  constructor() {
+    super();
 
+    this.state = {
+      product_data: product_data, 
+      cart_items: []
+    }
   }
+
+  addToCart = (id) => {
+    let toAddToCart = this.state.product_data.filter(function(product) {
+      return product.id === id;
+    });
+
+    let remainingProducts = this.state.product_data.filter(function(product) {
+      return product.id !== id;
+    });
+
+    let cartItems = this.state.cart_items.slice(0).concat(toAddToCart);
+
+    this.setState({product_data: remainingProducts, cart_items: cartItems});
+  }
+
   render() {
     return (
     <div>
       <p>Welcome to the Shop!</p>
-      <ProductManager product_data={product_data}/>
-      <CartManager />
+      <ProductManager 
+        product_data={this.state.product_data}
+        add_to_cart={this.addToCart}
+
+      />
+      <CartManager 
+        cart_items={this.state.cart_items}
+      />
     </div>
     );
   }
@@ -16,7 +42,9 @@ class ShoppingManager extends React.Component {
 class ProductManager extends React.Component {
   render () {
     return (
-      <ProductList product_data={this.props.product_data}/>
+      <ProductList product_data={this.props.product_data}
+                   add_to_cart={this.props.add_to_cart}
+      />
     );
   }
 }
@@ -24,7 +52,13 @@ class ProductManager extends React.Component {
 class ProductList extends React.Component {
   render () {
     let products = this.props.product_data.map((product, index) => {
-                    return <Product key={product.title + '-' + index}title={product.title} price={product.price} quantity={product.quantity} />
+                    return <Product key={product.title + '-' + index}
+                                    id={product.id}
+                                    title={product.title}
+                                    price={product.price} 
+                                    quantity={product.quantity} 
+                                    add_to_cart={this.props.add_to_cart}
+                           />
                    });
     return (
       <div>
@@ -35,13 +69,19 @@ class ProductList extends React.Component {
 }
 
 class Product extends React.Component {
+  handleAddToCartClick = (e) => {
+    e.preventDefault();
+    this.props.add_to_cart(this.props.id);
+  }
+
   render () {
     return (
       <div className="product">
         <p>{this.props.title} - {this.props.price} x {this.props.quantity}</p>
+        <button onClick={this.handleAddToCartClick}>
+        Add to cart
+        </button>
       </div>
-      <button onClick={this.addToCart}>
-      </button>
     );
   }
 }
@@ -71,7 +111,7 @@ class CartItem extends React.Component {
   render() {
     return (
       <div className="cart">
-        <p>{this.props.title} - {this.props.price}</p>
+        <p>{this.props.title} - {this.props.price * this.props.quantity}</p>
       </div>
     );
   }
