@@ -3,7 +3,7 @@ class ShoppingManager extends React.Component {
     super();
 
     this.state = {
-      product_data: product_data, 
+      product_data: product_data,
       cart_items: []
     }
   }
@@ -30,7 +30,6 @@ class ShoppingManager extends React.Component {
     });
   }
 
-
   removeFromCart = (id) => {
       let new_products = this.state.product_data.map((item) => {
         if (item.id === id){
@@ -54,7 +53,7 @@ class ShoppingManager extends React.Component {
       })
     }
 
-  emptyCart = () => {
+  checkout = () => {
     this.setState(prevState => {
       return {
         cart_items: []
@@ -70,15 +69,15 @@ class ShoppingManager extends React.Component {
       <header className="header">
         <h1>Welcome to the Shop!</h1>
       </header>
-      <ProductManager 
+      <ProductManager
         product_data={this.state.product_data}
         add_to_cart={this.addToCart}
 
       />
-      <CartManager 
+      <CartManager
         cart_items={this.state.cart_items}
         removeFromCart={this.removeFromCart}
-        emptyCart={this.emptyCart}
+        checkout={this.checkout}
       />
     </main>
     );
@@ -101,8 +100,8 @@ class ProductList extends React.Component {
                     return <Product key={product.title + '-' + index}
                                     id={product.id}
                                     title={product.title}
-                                    price={product.price} 
-                                    quantity={product.quantity} 
+                                    price={product.price}
+                                    quantity={product.quantity}
                                     add_to_cart={this.props.add_to_cart}
                            />
                    });
@@ -135,23 +134,23 @@ class Product extends React.Component {
 }
 
 class CartManager extends React.Component {
-  emptyCart = (e) => {
+  checkout = (e) => {
     e.preventDefault();
-    this.props.emptyCart();
+    this.props.checkout();
   }
   render() {
     return (
       <div>
-        <CartItemList removeFromCart={this.props.removeFromCart} 
+        <CartItemList removeFromCart={this.props.removeFromCart}
                       cart_items={this.props.cart_items}/>
-        <button className="button" onClick={this.emptyCart}>Empty Cart </button>
+        <button className="button" onClick={this.checkout}>Empty Cart </button>
     </div>
     )
   }
 }
 
 class CartItemList extends React.Component {
-  totalPrice = () => {
+  totalPrice() {
     return this.props.cart_items.reduce((accumulator, item) => {
       return accumulator += item.price;
     }, 0)
