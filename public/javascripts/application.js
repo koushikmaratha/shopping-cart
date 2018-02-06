@@ -12,11 +12,36 @@ class ShoppingManager extends React.Component {
     this.state.product_data[this.state.product_data.length-1].id;
   }
 
+  deleteProduct = (id) => {
+    let updatedProducts = this.state.product_data.filter((product) => {
+      return product.id !== id;
+    })
+    this.setState({
+      product_data: updatedProducts,
+    })
+  }
+
   addProduct = (newProduct) => {
     newProduct.id = this.lastID() + 1;
     let updatedProducts = [...this.state.product_data, newProduct]
     this.setState({
       product_data: updatedProducts,
+    })
+  }
+
+  editProduct = (id, productInfo) => {
+    productInfo.id = id
+    newProductData = [...this.state.product_data];
+    newProductData.map((product) => {
+      if (product.id === id) {
+        return productInfo;
+      } else {
+        return product
+      }
+    })
+
+    this.setState({
+      product_data: newProductData
     })
   }
 
@@ -106,6 +131,8 @@ class ShoppingManager extends React.Component {
       <ProductManager
         product_data={this.state.product_data}
         add_to_cart={this.addToCart}
+        deleteProduct={this.deleteProduct}
+        editProduct={this.editProduct}
 
       />
 
@@ -127,6 +154,8 @@ class ProductManager extends React.Component {
     return (
       <ProductList product_data={this.props.product_data}
                    add_to_cart={this.props.add_to_cart}
+                   deleteProduct={this.props.deleteProduct}
+                    editProduct={this.props.editProduct}
       />
     );
   }
@@ -141,6 +170,8 @@ class ProductList extends React.Component {
                                     price={product.price}
                                     quantity={product.quantity}
                                     add_to_cart={this.props.add_to_cart}
+                                    deleteProduct={this.props.deleteProduct}
+                                    editProduct={this.props.editProduct}
                            />
                    });
     return (
@@ -152,6 +183,19 @@ class ProductList extends React.Component {
 }
 
 class Product extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      formDisplayed: false
+    }
+  }
+
+  showForm = () => {
+    this.setState({
+      formDisplayed: true
+    })
+  }
+
   handleAddToCartClick = (e) => {
     e.preventDefault();
     if (this.props.quantity > 0){
@@ -159,16 +203,86 @@ class Product extends React.Component {
     };
   }
 
+  handleProductDeletion = (e) => {
+    e.preventDefault();
+    this.props.deleteProduct(this.props.id)
+  }
+
+  render () {
+    if (this.state.formDisplayed) {
+     return (
+        <EditForm 
+          title={this.props.title}
+          price={this.props.price}
+          quantity={this.props.quantity}
+          id={this.props.id}
+          editProduct={this.props.editProduct}
+        />
+      )
+    } else {
+      return (
+        <div className="product">
+          <p>{this.props.title} - ${this.props.price} x {this.props.quantity} <button onClick={this.handleProductDeletion}>X</button></p>
+          <button className="button" onClick={this.handleAddToCartClick}>
+          Add to cart
+          </button>
+          <button className="button" onClick={this.showForm}> Edit</button>
+        </div>
+      );
+    }
+   
+  }
+}
+
+class EditForm extends React.Component {
+
+  constructor() {
+    super();
+
+    this.state = {
+      fields: {
+        title: this.props.title,
+        price: this.props.price,
+        quantity: this.props.quantity
+      }
+    }
+  }
+
+  handleInputChange = (e) => {
+    this.state.fields[e.target.name] = e.target.value
+  }
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+    this.props.editProduct(this.props.id, this.state.fields)
+
+  }
+
   render () {
     return (
-      <div className="product">
-        <p>{this.props.title} - ${this.props.price} x {this.props.quantity}</p>
-        <button className="button" onClick={this.handleAddToCartClick}>
-        Add to cart
-        </button>
-      </div>
-    );
+      <form onSubmit={this.handleSubmit}>
+        <input type="text"
+               name="title"
+               value={this.state.title}
+               onChange={this.handleInputChange}
+        />
+        <input type="text"
+               name="price"
+               value={this.state.price}
+               onChange={this.handleInputChange}
+        />
+        <input type="text"
+               name="quanity"
+               value={this.state.quantity}
+               onChange={this.handleInputChange}
+        />
+
+
+        <input type="submit" value="Submit Edits" />
+      </form>
+    )
   }
+
 }
 
 class CartManager extends React.Component {
@@ -232,7 +346,6 @@ class CartItem extends React.Component {
 }
 
 class Form extends React.Component {
-  // state = { displayed: false }
   constructor(props) {
     super(props)
 
@@ -241,7 +354,7 @@ class Form extends React.Component {
       fields: {
         title: this.props.title || '',
         name: this.props.name || '',
-        quantity: this.props.quantity || ''
+        quantity: this.props.quantity || '',
       }
     }
   }
@@ -257,7 +370,7 @@ class Form extends React.Component {
     this.props.addProduct({
       title: this.state.fields.title,
       price: this.state.fields.price,
-      quantity: this.state.fields.quantity
+      quantity: this.state.fields.quantity,
     })
   }
 
