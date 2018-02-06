@@ -9,21 +9,41 @@ class ShoppingManager extends React.Component {
   }
 
   addToCart = (id) => {
-    let toAddToCart = this.state.product_data.filter(function(product) {
-      return product.id === id;
-    });
+    let cartItems;
 
     let remainingProducts = this.state.product_data.map(function(product) {
       if (product.id === id){
         let new_product = Object.assign({}, product)
-        new_product.quantity -= 1
+        new_product.quantity -= 1;
         return new_product;
       } else {
         return product;
       }
     });
 
-    let cartItems = this.state.cart_items.slice(0).concat(toAddToCart);
+    let toAddToCart = this.state.product_data.find(function(product) {
+      return product.id === id;
+    });
+
+    let foundItem = this.state.cart_items.find(function(product) {
+      return product.id === id;
+    });
+
+    if (foundItem) {
+      cartItems = this.state.cart_items.map(function(item) {
+        if (foundItem === item) {
+          let item_copy = Object.assign({}, item);
+          item_copy.quantity += 1;
+          return item_copy; 
+        } else {
+          return item;
+        }
+      });
+    } else {
+      let new_item = Object.assign({}, toAddToCart);
+      new_item.quantity = 1;
+      cartItems = this.state.cart_items.concat(new_item);
+    }
 
     this.setState(prevState => {
       return {product_data: remainingProducts, cart_items: cartItems}
@@ -31,27 +51,31 @@ class ShoppingManager extends React.Component {
   }
 
   removeFromCart = (id) => {
-      let new_products = this.state.product_data.map((item) => {
-        if (item.id === id){
-         let new_product = Object.assign({}, item)
-          new_product.quantity += 1
-          return new_product
-        } else {
-          return item;
-        }
-      })
+    let foundItem = this.state.cart_items.find(function(product) {
+      return product.id === id;
+    });
+    
+    let new_products = this.state.product_data.map(function(product) {
+      if (id === product.id) {
+        let product_copy = Object.assign({}, product);
+        product_copy.quantity += foundItem.quantity;   // should add the total quantity back from the same item
+        return product_copy;
+      } else {
+        return product;
+      }
+    });
 
-      let new_cart = this.state.cart_items.filter((item) => {
-        return item.id !== id
-      })
+    let new_cart = this.state.cart_items.filter((item) => {
+      return item.id !== id
+    })
 
-      this.setState(prevState => {
-        return {
-          product_data: new_products,
-          cart_items: new_cart
-        }
-      })
-    }
+    this.setState(prevState => {
+      return {
+        product_data: new_products,
+        cart_items: new_cart
+      }
+    })
+  }
 
   checkout = () => {
     this.setState(prevState => {
@@ -150,10 +174,10 @@ class CartManager extends React.Component {
 }
 
 class CartItemList extends React.Component {
-  totalPrice() {
+  totalPrice = () => {
     return this.props.cart_items.reduce((accumulator, item) => {
-      return accumulator += item.price;
-    }, 0)
+      return accumulator += item.price * item.quantity;
+    }, 0);
   }
   render() {
     let cart_items = this.props.cart_items.map((item, index) => {
@@ -161,6 +185,7 @@ class CartItemList extends React.Component {
                        id={item.id}
                        title={item.title}
                        price={item.price}
+                       quantity={item.quantity}
                        removeFromCart={this.props.removeFromCart}
               />
     });
@@ -170,7 +195,7 @@ class CartItemList extends React.Component {
         <h3>Cart</h3>
         {cart_items}
         <div>
-         Total: ${this.totalPrice()}
+         Total: ${(this.totalPrice()).toFixed(2)}
         </div>
       </div>
     );
@@ -185,7 +210,7 @@ class CartItem extends React.Component {
   render() {
     return (
       <div className="cart">
-        <p>{this.props.title} - {this.props.price}</p>
+        <p>{this.props.title} - {this.props.price} x {this.props.quantity}</p>
         <button className="button" onClick={this.removeFromCart}>Remove </button>
       </div>
     );
