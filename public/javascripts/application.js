@@ -9,10 +9,11 @@ class ShoppingManager extends React.Component {
   }
 
   lastID = () => {
-    this.state.product_data[this.state.product_data.length-1].id;
+    return this.state.product_data[this.state.product_data.length-1].id;
   }
 
   deleteProduct = (id) => {
+    console.log(this.state.product_data)
     let updatedProducts = this.state.product_data.filter((product) => {
       return product.id !== id;
     })
@@ -269,19 +270,19 @@ class EditForm extends React.Component {
         <label htmlFor="title">Title</label>
         <input type="text"
                name="title"
-               value={this.state.title}
+               value={this.state.fields.title}
                onChange={this.handleInputChange}
         />
         <label htmlFor="price">Price</label>
         <input type="text"
                name="price"
-               value={this.state.price}
+               value={this.state.fields.price}
                onChange={this.handleInputChange}
         />
         <label htmlFor="quantity">Quantity</label>
         <input type="text"
                name="quanity"
-               value={this.state.quantity}
+               value={this.state.fields.quantity}
                onChange={this.handleInputChange}
         />
 
