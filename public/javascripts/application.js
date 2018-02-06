@@ -8,6 +8,12 @@ class ShoppingManager extends React.Component {
     }
   }
 
+  addProduct = (newProduct) => {
+    this.setState({
+      product_data: [...product_data, newProduct],
+    })
+  }
+
   addToCart = (id) => {
     let cartItems;
 
@@ -97,7 +103,9 @@ class ShoppingManager extends React.Component {
 
       />
 
-      <Form />
+      <Form
+        addProduct={this.addProduct}
+      />
       <CartManager
         cart_items={this.state.cart_items}
         removeFromCart={this.removeFromCart}
@@ -236,6 +244,14 @@ class Form extends React.Component {
     });
   }
 
+  addProduct = () => {
+    this.props.addToProduct({
+      title: this.state.title,
+      price: this.state.price,
+      quantity: this.state.quantity
+    })
+  }
+
   render() {
     if (this.state.displayed) {
       return (
@@ -269,7 +285,7 @@ class Form extends React.Component {
                 value={this.state.quantity}
               />
             </div>
-            <input type="submit" />
+            <input onSubmit={this.addProduct} type="submit" />
             <button onClick={this.toggleForm}>Cancel</button>
           </form>
         </div>
