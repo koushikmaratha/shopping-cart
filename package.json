@@ -9,6 +9,12 @@
   "private": true,
   "devDependencies": {
     "concurrently": "2.2.0",
+    "eslint": "^4.17.0",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-jsx-a11y": "^6.0.3",
+    "eslint-plugin-react": "^7.6.1",
     "live-server": "git://github.com/acco/live-server.git"
-  }
+  },
+  "dependencies": {}
 }
