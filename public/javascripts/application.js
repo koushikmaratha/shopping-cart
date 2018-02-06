@@ -167,7 +167,7 @@ class CartManager extends React.Component {
       <div>
         <CartItemList removeFromCart={this.props.removeFromCart}
                       cart_items={this.props.cart_items}/>
-        <button className="button" onClick={this.checkout}>Empty Cart </button>
+        <button className="button" onClick={this.checkout}>Check Out </button>
     </div>
     )
   }
