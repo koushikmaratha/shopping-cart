@@ -30,15 +30,14 @@ class ShoppingManager extends React.Component {
   }
 
   editProduct = (id, productInfo) => {
-    productInfo.id = id
-    newProductData = [...this.state.product_data];
-    newProductData.map((product) => {
+    productInfo.id = Number(id);
+    let newProductData = this.state.product_data.map((product) => {
       if (product.id === id) {
         return productInfo;
       } else {
         return product
       }
-    })
+    });
 
     this.setState({
       product_data: newProductData
@@ -183,8 +182,8 @@ class ProductList extends React.Component {
 }
 
 class Product extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       formDisplayed: false
     }
@@ -208,15 +207,22 @@ class Product extends React.Component {
     this.props.deleteProduct(this.props.id)
   }
 
+  showProduct = () => {
+    this.setState({
+      formDisplayed: false,
+    });
+  }
+
   render () {
     if (this.state.formDisplayed) {
      return (
-        <EditForm 
+        <EditForm
           title={this.props.title}
           price={this.props.price}
           quantity={this.props.quantity}
           id={this.props.id}
           editProduct={this.props.editProduct}
+          cancelEdit={this.showProduct}
         />
       )
     } else {
@@ -230,14 +236,14 @@ class Product extends React.Component {
         </div>
       );
     }
-   
+
   }
 }
 
 class EditForm extends React.Component {
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
       fields: {
@@ -255,30 +261,32 @@ class EditForm extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.editProduct(this.props.id, this.state.fields)
-
   }
 
   render () {
     return (
       <form onSubmit={this.handleSubmit}>
+        <label htmlFor="title">Title</label>
         <input type="text"
                name="title"
                value={this.state.title}
                onChange={this.handleInputChange}
         />
+        <label htmlFor="price">Price</label>
         <input type="text"
                name="price"
                value={this.state.price}
                onChange={this.handleInputChange}
         />
+        <label htmlFor="quantity">Quantity</label>
         <input type="text"
                name="quanity"
                value={this.state.quantity}
                onChange={this.handleInputChange}
         />
 
-
         <input type="submit" value="Submit Edits" />
+        <button onClick={this.props.cancelEdit}>Cancel</button>
       </form>
     )
   }
