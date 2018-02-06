@@ -13,7 +13,6 @@ class ShoppingManager extends React.Component {
   }
 
   deleteProduct = (id) => {
-    console.log(this.state.product_data)
     let updatedProducts = this.state.product_data.filter((product) => {
       return product.id !== id;
     })
