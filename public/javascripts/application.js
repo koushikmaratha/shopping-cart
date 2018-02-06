@@ -34,7 +34,7 @@ class ShoppingManager extends React.Component {
         if (foundItem === item) {
           let item_copy = Object.assign({}, item);
           item_copy.quantity += 1;
-          return item_copy; 
+          return item_copy;
         } else {
           return item;
         }
@@ -54,7 +54,7 @@ class ShoppingManager extends React.Component {
     let foundItem = this.state.cart_items.find(function(product) {
       return product.id === id;
     });
-    
+
     let new_products = this.state.product_data.map(function(product) {
       if (id === product.id) {
         let product_copy = Object.assign({}, product);
@@ -83,9 +83,7 @@ class ShoppingManager extends React.Component {
         cart_items: []
       }
     })
-
   }
-
 
   render() {
     return (
@@ -98,6 +96,8 @@ class ShoppingManager extends React.Component {
         add_to_cart={this.addToCart}
 
       />
+
+      <Form />
       <CartManager
         cart_items={this.state.cart_items}
         removeFromCart={this.removeFromCart}
@@ -214,6 +214,69 @@ class CartItem extends React.Component {
         <button className="button" onClick={this.removeFromCart}>Remove </button>
       </div>
     );
+  }
+}
+
+class Form extends React.Component {
+  // state = { displayed: false }
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      displayed: false,
+      title: this.props.title || '',
+      name: this.props.name || '',
+      quantity: this.props.quantity || ''
+    }
+  }
+
+  toggleForm = () => {
+    this.setState({
+      displayed: !this.state.displayed
+    });
+  }
+
+  render() {
+    if (this.state.displayed) {
+      return (
+        <div>
+          <h3>Add Product</h3>
+          <form className="product-form">
+            <div>
+              <label htmlFor="title">Title</label>
+              <input
+                type="text"
+                name="title"
+                id="title"
+                value={this.state.title}
+              />
+            </div>
+            <div>
+              <label htmlFor="price">Price</label>
+              <input
+                type="text"
+                name="price"
+                id="price"
+                value={this.state.price}
+              />
+            </div>
+            <div>
+              <label htmlFor="quantity">Quantity</label>
+              <input
+                type="text"
+                name="quantity"
+                id="quantity"
+                value={this.state.quantity}
+              />
+            </div>
+            <input type="submit" />
+            <button onClick={this.toggleForm}>Cancel</button>
+          </form>
+        </div>
+      );
+    } else {
+      return (<button onClick={this.toggleForm}>Add Product</button>)
+    }
   }
 }
 
