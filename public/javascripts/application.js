@@ -8,9 +8,15 @@ class ShoppingManager extends React.Component {
     }
   }
 
+  lastID = () => {
+    this.state.product_data[this.state.product_data.length-1].id;
+  }
+
   addProduct = (newProduct) => {
+    newProduct.id = this.lastID() + 1;
+    let updatedProducts = [...this.state.product_data, newProduct]
     this.setState({
-      product_data: [...product_data, newProduct],
+      product_data: updatedProducts,
     })
   }
 
@@ -232,9 +238,11 @@ class Form extends React.Component {
 
     this.state = {
       displayed: false,
-      title: this.props.title || '',
-      name: this.props.name || '',
-      quantity: this.props.quantity || ''
+      fields: {
+        title: this.props.title || '',
+        name: this.props.name || '',
+        quantity: this.props.quantity || ''
+      }
     }
   }
 
@@ -244,16 +252,19 @@ class Form extends React.Component {
     });
   }
 
-  addProduct = () => {
-    this.props.addToProduct({
-      title: this.state.title,
-      price: this.state.price,
-      quantity: this.state.quantity
+  addProduct = (e) => {
+    e.preventDefault();
+    this.props.addProduct({
+      title: this.state.fields.title,
+      price: this.state.fields.price,
+      quantity: this.state.fields.quantity
     })
   }
 
-  updateField = () => {
-
+  updateField = (e) => {
+    let fields = this.state.fields;
+    fields[e.target.name] = e.target.value
+    this.setState({fields: fields})
   }
 
   render() {
@@ -261,7 +272,7 @@ class Form extends React.Component {
       return (
         <div>
           <h3>Add Product</h3>
-          <form className="product-form">
+          <form onSubmit={this.addProduct}>
             <div>
               <label htmlFor="title">Title</label>
               <input
@@ -292,7 +303,7 @@ class Form extends React.Component {
                 onChange={this.updateField}
               />
             </div>
-            <input onSubmit={this.addProduct} type="submit" />
+            <input type="submit" />
             <button onClick={this.toggleForm}>Cancel</button>
           </form>
         </div>
