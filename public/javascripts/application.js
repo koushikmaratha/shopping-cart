@@ -252,6 +252,10 @@ class Form extends React.Component {
     })
   }
 
+  updateField = () => {
+
+  }
+
   render() {
     if (this.state.displayed) {
       return (
@@ -265,6 +269,7 @@ class Form extends React.Component {
                 name="title"
                 id="title"
                 value={this.state.title}
+                onChange={this.updateField}
               />
             </div>
             <div>
@@ -274,6 +279,7 @@ class Form extends React.Component {
                 name="price"
                 id="price"
                 value={this.state.price}
+                onChange={this.updateField}
               />
             </div>
             <div>
@@ -283,6 +289,7 @@ class Form extends React.Component {
                 name="quantity"
                 id="quantity"
                 value={this.state.quantity}
+                onChange={this.updateField}
               />
             </div>
             <input onSubmit={this.addProduct} type="submit" />
