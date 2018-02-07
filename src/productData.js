@@ -1,4 +1,4 @@
-var productData = [
+export default [
   {
     id: 1,
     title: 'Amazon Kindle E-reader',
