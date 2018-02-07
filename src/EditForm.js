@@ -14,7 +14,7 @@ class EditForm extends Component {
   }
 
   handleInputChange = (e) => {
-    const updatedFields = this.state.fields;
+    const updatedFields = Object.assign({}, this.state.fields);
     updatedFields[e.target.name] = e.target.value;
     this.setState({
       fields: updatedFields,
@@ -43,7 +43,7 @@ class EditForm extends Component {
         />
         <label htmlFor="quantity">Quantity</label>
         <input type="text"
-               name="quanity"
+               name="quantity"
                value={this.state.fields.quantity}
                onChange={this.handleInputChange}
         />

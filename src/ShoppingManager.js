@@ -1,13 +1,7 @@
 import React, { Component } from 'react';
 
-import CartItem from './CartItem';
-import CartItemList from './CartItemList';
 import CartManager from './CartManager';
-import Form from './Form';
-import Product from './Product';
-import ProductList from './ProductList';
 import ProductManager from './ProductManager';
-import EditForm from './EditForm';
 import productData from './productData';
 import logo from './logo.svg';
 import './App.css';
@@ -134,12 +128,9 @@ class ShoppingManager extends Component {
         addToCart={this.addToCart}
         deleteProduct={this.deleteProduct}
         editProduct={this.editProduct}
-
-      />
-
-      <Form
         addProduct={this.addProduct}
       />
+
       <CartManager
         cartItems={this.state.cartItems}
         removeFromCart={this.removeFromCart}
