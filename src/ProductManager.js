@@ -4,13 +4,14 @@ import ProductList from './ProductList';
 import Form from './Form';
 
 class ProductManager extends Component {
-  render () {
+  render() {
     return (
       <div>
-        <ProductList productData={this.props.productData}
-                     addToCart={this.props.addToCart}
-                     deleteProduct={this.props.deleteProduct}
-                     editProduct={this.props.editProduct}
+        <ProductList
+          productData={this.props.productData}
+          addToCart={this.props.addToCart}
+          deleteProduct={this.props.deleteProduct}
+          editProduct={this.props.editProduct}
         />
         <Form
           addProduct={this.props.addProduct}
