@@ -30,12 +30,12 @@ describe('EditForm', () => {
        inputOne.simulate('change', {
         target: {value: value1}
       })
-       
+
     })
 
     it("should update the state property 'title' ", () => {
       expect(
-        wrapper.state().title
+        wrapper.state().fields.title
       ).toEqual(value1)
     })
   })

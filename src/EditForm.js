@@ -14,6 +14,7 @@ class EditForm extends Component {
   }
 
   handleInputChange = (e) => {
+    console.log("this was called")
     const updatedFields = Object.assign({}, this.state.fields);
     updatedFields[e.target.name] = e.target.value;
     this.setState({
