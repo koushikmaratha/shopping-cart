@@ -28,12 +28,11 @@ describe('EditForm', () => {
        inputTwo = wrapper.find('input')[1];
        inputThree = wrapper.find('input')[2];
        inputOne.simulate('change', {
-        target: {value: value1}
+        target: {value: "Edited", name: "title"}
       })
-
     })
 
-    it("should update the state property 'title' ", () => {
+    it("should update the state property 'title' ", () => { 
       expect(
         wrapper.state().fields.title
       ).toEqual(value1)
