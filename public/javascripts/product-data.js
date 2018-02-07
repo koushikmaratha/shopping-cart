@@ -1,4 +1,4 @@
-var product_data = [
+var productData = [
   {
     id: 1,
     title: 'Amazon Kindle E-reader',

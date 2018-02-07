@@ -3,112 +3,100 @@ class ShoppingManager extends React.Component {
     super();
 
     this.state = {
-      product_data: product_data,
-      cart_items: []
-    }
+      productData,
+      cartItems: [],
+    };
   }
 
-  lastID = () => {
-    return this.state.product_data[this.state.product_data.length-1].id;
-  }
+  lastID = () => (this.state.productData[this.state.productData.length - 1].id)
 
   deleteProduct = (id) => {
-    let updatedProducts = this.state.product_data.filter((product) => {
-      return product.id !== id;
-    })
+    const updatedProducts = this.state.productData.filter(product => product.id !== id);
     this.setState({
-      product_data: updatedProducts,
-    })
+      productData: updatedProducts,
+    });
   }
 
   addProduct = (newProduct) => {
     newProduct.id = this.lastID() + 1;
-    let updatedProducts = [...this.state.product_data, newProduct]
+    const updatedProducts = [...this.state.productData, newProduct];
     this.setState({
-      product_data: updatedProducts,
-    })
+      productData: updatedProducts,
+    });
   }
 
   editProduct = (id, productInfo) => {
     productInfo.id = Number(id);
-    let newProductData = this.state.product_data.map((product) => {
-      if (product.id === id) {
-        return productInfo;
-      } else {
-        return product
-      }
+    const newProductData = this.state.productData.map((product) => {
+      if (product.id === id) { return productInfo; }
+      return product;
     });
 
     this.setState({
-      product_data: newProductData
-    })
+      productData: newProductData,
+    });
   }
 
   addToCart = (id) => {
     let cartItems;
 
-    let remainingProducts = this.state.product_data.map(function(product) {
-      if (product.id === id){
-        let new_product = Object.assign({}, product)
-        new_product.quantity -= 1;
-        return new_product;
-      } else {
-        return product;
+    const remainingProducts = this.state.productData.map((product) => {
+      if (product.id === id) {
+        const newProduct = Object.assign({}, product);
+        newProduct.quantity -= 1;
+        return newProduct;
       }
+      return product;
     });
 
-    let toAddToCart = this.state.product_data.find(function(product) {
-      return product.id === id;
-    });
-
-    let foundItem = this.state.cart_items.find(function(product) {
-      return product.id === id;
-    });
+    const toAddToCart = this.state.productData.find(product => product.id === id);
+    const foundItem = this.state.cartItems.find(product => product.id === id);
 
     if (foundItem) {
-      cartItems = this.state.cart_items.map(function(item) {
+      cartItems = this.state.cartItems.map((item) => {
         if (foundItem === item) {
-          let item_copy = Object.assign({}, item);
-          item_copy.quantity += 1;
-          return item_copy;
-        } else {
-          return item;
+          const itemCopy = Object.assign({}, item);
+          itemCopy.quantity += 1;
+          return itemCopy;
         }
+        return item;
       });
     } else {
-      let new_item = Object.assign({}, toAddToCart);
-      new_item.quantity = 1;
-      cartItems = this.state.cart_items.concat(new_item);
+      const newItem = Object.assign({}, toAddToCart);
+      newItem.quantity = 1;
+      cartItems = this.state.cartItems.concat(newItem);
     }
 
-    this.setState(prevState => {
-      return {product_data: remainingProducts, cart_items: cartItems}
-    });
+    this.setState(prevState => ({
+      // should we use prevState to calculate remainingProducts here? if so, any suggestions?
+      productData: remainingProducts,
+      cartItems,
+    }));
   }
 
   removeFromCart = (id) => {
-    let foundItem = this.state.cart_items.find(function(product) {
+    const foundItem = this.state.cartItems.find((product) => {
       return product.id === id;
     });
 
-    let new_products = this.state.product_data.map(function(product) {
+    const newProducts = this.state.productData.map((product) => {
       if (id === product.id) {
-        let product_copy = Object.assign({}, product);
-        product_copy.quantity += foundItem.quantity;   // should add the total quantity back from the same item
-        return product_copy;
+        const productCopy = Object.assign({}, product);
+        productCopy.quantity += foundItem.quantity; // should add the total quantity back from the same item
+        return productCopy;
       } else {
         return product;
       }
     });
 
-    let new_cart = this.state.cart_items.filter((item) => {
+    const newCart = this.state.cartItems.filter((item) => {
       return item.id !== id
     })
 
     this.setState(prevState => {
       return {
-        product_data: new_products,
-        cart_items: new_cart
+        productData: newProducts,
+        cartItems: newCart
       }
     })
   }
@@ -116,7 +104,7 @@ class ShoppingManager extends React.Component {
   checkout = () => {
     this.setState(prevState => {
       return {
-        cart_items: []
+        cartItems: []
       }
     })
   }
@@ -128,8 +116,8 @@ class ShoppingManager extends React.Component {
         <h1>Welcome to the Shop!</h1>
       </header>
       <ProductManager
-        product_data={this.state.product_data}
-        add_to_cart={this.addToCart}
+        productData={this.state.productData}
+        addToCart={this.addToCart}
         deleteProduct={this.deleteProduct}
         editProduct={this.editProduct}
 
@@ -139,7 +127,7 @@ class ShoppingManager extends React.Component {
         addProduct={this.addProduct}
       />
       <CartManager
-        cart_items={this.state.cart_items}
+        cartItems={this.state.cartItems}
         removeFromCart={this.removeFromCart}
         checkout={this.checkout}
       />
@@ -151,10 +139,10 @@ class ShoppingManager extends React.Component {
 class ProductManager extends React.Component {
   render () {
     return (
-      <ProductList product_data={this.props.product_data}
-                   add_to_cart={this.props.add_to_cart}
+      <ProductList productData={this.props.productData}
+                   addToCart={this.props.addToCart}
                    deleteProduct={this.props.deleteProduct}
-                    editProduct={this.props.editProduct}
+                   editProduct={this.props.editProduct}
       />
     );
   }
@@ -162,7 +150,7 @@ class ProductManager extends React.Component {
 
 class ProductList extends React.Component {
   render () {
-    let products = this.props.product_data.map((product, index) => {
+    let products = this.props.productData.map((product, index) => {
                     return <Product key={product.title + '-' + index}
                                     id={product.id}
                                     title={product.title}
@@ -198,7 +186,7 @@ class Product extends React.Component {
   handleAddToCartClick = (e) => {
     e.preventDefault();
     if (this.props.quantity > 0){
-      this.props.add_to_cart(this.props.id);
+      this.props.addToCart(this.props.id);
     };
   }
 
@@ -213,7 +201,7 @@ class Product extends React.Component {
     });
   }
 
-  render () {
+  render() {
     if (this.state.formDisplayed) {
      return (
         <EditForm
@@ -249,9 +237,9 @@ class EditForm extends React.Component {
       fields: {
         title: this.props.title,
         price: this.props.price,
-        quantity: this.props.quantity
+        quantity: this.props.quantity,
       }
-    }
+    };
   }
 
   handleInputChange = (e) => {
@@ -267,7 +255,7 @@ class EditForm extends React.Component {
     this.props.editProduct(this.props.id, this.state.fields)
   }
 
-  render () {
+  render() {
     return (
       <form onSubmit={this.handleSubmit}>
         <label htmlFor="title">Title</label>
@@ -306,7 +294,7 @@ class CartManager extends React.Component {
     return (
       <div>
         <CartItemList removeFromCart={this.props.removeFromCart}
-                      cart_items={this.props.cart_items}/>
+                      cartItems={this.props.cartItems}/>
         <button className="button" onClick={this.checkout}>Check Out </button>
     </div>
     )
@@ -315,12 +303,12 @@ class CartManager extends React.Component {
 
 class CartItemList extends React.Component {
   totalPrice = () => {
-    return this.props.cart_items.reduce((accumulator, item) => {
+    return this.props.cartItems.reduce((accumulator, item) => {
       return accumulator += item.price * item.quantity;
     }, 0);
   }
   render() {
-    let cart_items = this.props.cart_items.map((item, index) => {
+    let cartItems = this.props.cartItems.map((item, index) => {
       return <CartItem key={item + '-' + index}
                        id={item.id}
                        title={item.title}
@@ -333,7 +321,7 @@ class CartItemList extends React.Component {
     return (
       <div>
         <h3>Cart</h3>
-        {cart_items}
+        {cartItems}
         <div>
          Total: ${(this.totalPrice()).toFixed(2)}
         </div>
@@ -359,21 +347,21 @@ class CartItem extends React.Component {
 
 class Form extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
 
     this.state = {
       displayed: false,
       fields: {
-        title: this.props.title || '',
-        name: this.props.name || '',
-        quantity: this.props.quantity || '',
-      }
-    }
+        title: '',
+        name: '',
+        quantity: '',
+      },
+    };
   }
 
   toggleForm = () => {
     this.setState({
-      displayed: !this.state.displayed
+      displayed: !this.state.displayed,
     });
   }
 
@@ -384,6 +372,8 @@ class Form extends React.Component {
       price: this.state.fields.price,
       quantity: this.state.fields.quantity,
     })
+
+    this.toggleForm();
   }
 
   updateField = (e) => {
