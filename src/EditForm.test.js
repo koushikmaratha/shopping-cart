@@ -17,19 +17,26 @@ describe('EditForm', () => {
 
   describe('User populates the input', () => {
     const value1 = "Edited";
-    const value2 = "11";
-    const value3 = "101";
+    const value2 = "101";
+    const value3 = "11";
     let inputOne;
     let inputTwo;
     let inputThree;
 
     beforeEach(() => {
        inputOne = wrapper.find('input').first();
-       inputTwo = wrapper.find('input')[1];
-       inputThree = wrapper.find('input')[2];
+       inputTwo = wrapper.find("input[name='price']");
+       inputThree = wrapper.find("input[name='quantity']");
        inputOne.simulate('change', {
-        target: {value: "Edited", name: "title"}
+        target: {value: value1, name: "title"}
       })
+       inputTwo.simulate('change', {
+        target: {value: value2, name: "price"}
+       })
+       inputThree.simulate('change', {
+        target: {value: value3, name: "quantity"}
+       })
+      
     })
 
     it("should update the state property 'title' ", () => { 
@@ -37,6 +44,22 @@ describe('EditForm', () => {
         wrapper.state().fields.title
       ).toEqual(value1)
     })
+
+    it("should update the state property 'price' ", () => { 
+      expect(
+        wrapper.state().fields.price
+      ).toEqual(value2)
+    })
+
+    it("should update the state property 'quantity' ", () => { 
+      expect(
+        wrapper.state().fields.quantity
+      ).toEqual(value3)
+    })
+
+     
   })
+
+
 
 })
