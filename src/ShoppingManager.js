@@ -5,6 +5,8 @@ import CartItemList from './CartItemList';
 import CartManager from './CartManager';
 import Form from './Form';
 import Product from './Product';
+import ProductList from './ProductList';
+import ProductManager from './ProductManager';
 import EditForm from './EditForm';
 import productData from './productData';
 import logo from './logo.svg';
@@ -144,39 +146,6 @@ class ShoppingManager extends Component {
         checkout={this.checkout}
       />
     </main>
-    );
-  }
-}
-
-class ProductManager extends Component {
-  render () {
-    return (
-      <ProductList productData={this.props.productData}
-                   addToCart={this.props.addToCart}
-                   deleteProduct={this.props.deleteProduct}
-                   editProduct={this.props.editProduct}
-      />
-    );
-  }
-}
-
-class ProductList extends Component {
-  render () {
-    let products = this.props.productData.map((product, index) => {
-                    return <Product key={product.title + '-' + index}
-                                    id={product.id}
-                                    title={product.title}
-                                    price={product.price}
-                                    quantity={product.quantity}
-                                    addToCart={this.props.addToCart}
-                                    deleteProduct={this.props.deleteProduct}
-                                    editProduct={this.props.editProduct}
-                           />
-                   });
-    return (
-      <div>
-        {products}
-      </div>
     );
   }
 }
