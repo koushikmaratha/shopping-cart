@@ -255,7 +255,11 @@ class EditForm extends React.Component {
   }
 
   handleInputChange = (e) => {
-    this.state.fields[e.target.name] = e.target.value
+    const updatedFields = this.state.fields;
+    updatedFields[e.target.name] = e.target.value;
+    this.setState({
+      fields: updatedFields,
+    });
   }
 
   handleSubmit = (e) => {
