@@ -1,6 +1,6 @@
-import { shallow, mount } from 'enzyme';
-
+import { shallow } from 'enzyme';
 import React from 'react';
+
 import CartItem from './CartItem';
 import CartItemList from './CartItemList';
 
@@ -29,7 +29,7 @@ describe('CartItemList', () => {
   ];
   let wrapper;
   beforeEach(() => {
-    wrapper = mount(<CartItemList
+    wrapper = shallow(<CartItemList
       cartItems={cartItems}
     />);
   });
