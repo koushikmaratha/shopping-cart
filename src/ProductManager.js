@@ -9,7 +9,6 @@ class ProductManager extends Component {
       <div>
         <ProductList
           productData={this.props.productData}
-          addToCart={this.props.addToCart}
           deleteProduct={this.props.deleteProduct}
           editProduct={this.props.editProduct}
         />

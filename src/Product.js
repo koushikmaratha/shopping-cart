@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-
 import EditForm from './EditForm';
+import store from './store'
 
 class Product extends Component {
   constructor(props) {
@@ -19,7 +19,10 @@ class Product extends Component {
   handleAddToCartClick = (e) => {
     e.preventDefault();
     if (this.props.quantity > 0){
-      this.props.addToCart(this.props.id);
+      store.dispatch({
+        type: "ADD_TO_CART",
+        value: this.props
+      })
     };
   }
 

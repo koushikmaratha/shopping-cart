@@ -10,7 +10,6 @@ class ProductList extends Component {
                                     title={product.title}
                                     price={product.price}
                                     quantity={product.quantity}
-                                    addToCart={this.props.addToCart}
                                     deleteProduct={this.props.deleteProduct}
                                     editProduct={this.props.editProduct}
                            />

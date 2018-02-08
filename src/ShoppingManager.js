@@ -3,17 +3,16 @@ import React, { Component } from 'react';
 import CartManager from './CartManager';
 import ProductManager from './ProductManager';
 import productData from './productData';
+import store from './store'
 import logo from './logo.svg';
 import './App.css';
 
-class ShoppingManager extends Component {
-  constructor() {
-    super();
 
-    this.state = {
-      productData,
-      cartItems: [],
-    };
+class ShoppingManager extends Component {
+  
+
+  componentWillMount() {
+    store.subscribe(() => (this.forceUpdate()))
   }
 
   lastID = () => (this.state.productData[this.state.productData.length - 1].id)
@@ -118,13 +117,16 @@ class ShoppingManager extends Component {
   }
 
   render() {
+    const products = store.getState().productData
+    
+    const cartItems = store.getState().cartItems
     return (
     <main>
       <header className="header">
         <h1>Welcome to the Shop!</h1>
       </header>
       <ProductManager
-        productData={this.state.productData}
+        productData={products}
         addToCart={this.addToCart}
         deleteProduct={this.deleteProduct}
         editProduct={this.editProduct}
@@ -132,7 +134,7 @@ class ShoppingManager extends Component {
       />
 
       <CartManager
-        cartItems={this.state.cartItems}
+        cartItems={cartItems}
         removeFromCart={this.removeFromCart}
         checkout={this.checkout}
       />
