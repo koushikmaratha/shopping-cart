@@ -13,8 +13,8 @@ describe('ProductList', () => {
                       />);
   });
 
-  it ('renders <Product /> component', () => {
-    expect(wrapper.find(Product));
+  it ('renders Four <Product /> component', () => {
+    expect(wrapper.find(Product)).toHaveLength(4);
   });
 
 });
