@@ -61,7 +61,7 @@ describe('EditForm', () => {
       ).toEqual(value3)
     })
   })
-
+/*
   describe("then submits the form", () => {
     let form;
     let spy;
@@ -86,7 +86,7 @@ describe('EditForm', () => {
       sinon.assert.calledOnce(spy)
     })
   })
-
+*/
 
 
 })
