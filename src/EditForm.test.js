@@ -6,14 +6,18 @@ import { shallow } from 'enzyme';
 describe('EditForm', () => {
   let wrapper;
   let instance;
+  let spy;
 
   beforeEach(() => {
+    spy = sinon.spy();
     wrapper = shallow(<EditForm 
         title="First Item"
         quantity="10"
         price="100"
         id={1}
+        editProduct={spy}
       />)
+     
     instance = wrapper.instance();
   });
 
@@ -61,19 +65,14 @@ describe('EditForm', () => {
       ).toEqual(value3)
     })
   })
-/*
+
   describe("then submits the form", () => {
     let form;
-    let spy;
-    let handleSubmitStub;
-    let stub;
    
 
 
     beforeEach(() => {
-      spy = sinon.spy();
-      handleSubmitStub = sinon.stub(instance, "handleSubmit").callsFake((spy))
-      console.log(instance)
+     
       form = wrapper.find('form').first()
     
       form.simulate('submit', {
@@ -86,7 +85,7 @@ describe('EditForm', () => {
       sinon.assert.calledOnce(spy)
     })
   })
-*/
+
 
 
 })
