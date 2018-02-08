@@ -50,9 +50,7 @@ class Product extends Component {
       return (
         <div className="product">
           <p>{this.props.title} - ${this.props.price} x {this.props.quantity} <button onClick={this.handleProductDeletion}>X</button></p>
-          <button className="button" onClick={this.handleAddToCartClick}>
-          Add to cart
-          </button>
+          <button className="button" onClick={this.handleAddToCartClick}>Add to cart</button>
           <button className="button" onClick={this.showForm}> Edit</button>
         </div>
       );
