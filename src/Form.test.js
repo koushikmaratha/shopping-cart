@@ -90,13 +90,6 @@ describe('Form', () => {
     //       wrapper.state().fields
     //     ).toContain();
     //   });
-    //
-    //   it('should clear the input field', () => {
-    //     const input = wrapper.find('input').first();
-    //     expect(
-    //       input.props().value
-    //     ).toEqual('');
-    //   });
     // });
   });
 });
