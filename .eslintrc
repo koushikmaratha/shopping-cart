@@ -23,6 +23,7 @@
     "no-use-before-define": 1,
     "no-debugger": 0,
     "no-new": 1,
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }]
   },
   "env": {
     "jasmine": true,
