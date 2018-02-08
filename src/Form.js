@@ -8,7 +8,7 @@ class Form extends Component {
       displayed: false,
       fields: {
         title: '',
-        name: '',
+        price: '',
         quantity: '',
       },
     };
