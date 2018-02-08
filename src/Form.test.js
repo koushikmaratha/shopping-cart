@@ -109,6 +109,10 @@ describe('Form', () => {
         expect(
           wrapper.contains(<h3>Add Product</h3>)
         ).toBe(false);
+
+        expect(
+          wrapper.containsMatchingElement(<button>Add Product</button>)
+        ).toEqual(true);
       });
     });
   });
