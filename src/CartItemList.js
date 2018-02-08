@@ -4,19 +4,24 @@ import CartItem from './CartItem';
 
 class CartItemList extends Component {
   totalPrice = () => {
-    return this.props.cartItems.reduce((accumulator, item) => {
-      return accumulator += item.price * item.quantity;
+    return this.props.cartItems.reduce((acc, item) => {
+      acc += item.price * item.quantity;
+      return acc;
     }, 0);
   }
   render() {
-    let cartItems = this.props.cartItems.map((item, index) => {
-      return <CartItem key={item + '-' + index}
-                       id={item.id}
-                       title={item.title}
-                       price={item.price}
-                       quantity={item.quantity}
-                       removeFromCart={this.props.removeFromCart}
-              />
+    // eslint complains about unexpected block statement around arrow body
+    const cartItems = this.props.cartItems.map((item) => {
+      return (
+        <CartItem
+          key={`${item}-${item.id}`}
+          id={item.id}
+          title={item.title}
+          price={item.price}
+          quantity={item.quantity}
+          removeFromCart={this.props.removeFromCart}
+        />
+      );
     });
 
     return (
