@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import store from './store'
 
 class EditForm extends Component {
   constructor(props) {
@@ -9,6 +10,7 @@ class EditForm extends Component {
         title: this.props.title,
         price: this.props.price,
         quantity: this.props.quantity,
+        id: this.props.id
       }
     };
   }
@@ -23,7 +25,12 @@ class EditForm extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    this.props.editProduct(this.props.id, this.state.fields)
+    console.log(this.state.fields)
+    store.dispatch({
+      type: "EDIT_PRODUCT",
+      newInfo: this.state.fields
+    })
+    this.props.cancelEdit();
   }
 
   render() {

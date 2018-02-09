@@ -48,7 +48,6 @@ class Product extends Component {
           price={this.props.price}
           quantity={this.props.quantity}
           id={this.props.id}
-          editProduct={this.props.editProduct}
           cancelEdit={this.showProduct}
         />
       )

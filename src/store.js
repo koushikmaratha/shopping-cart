@@ -106,6 +106,22 @@ const addProductTo = (collection, productInfo) => { // returns new collection w/
 	return collection;
 }
 
+const editProduct = (products, productInfo) => {
+	console.log(productInfo)
+	products = products.map((product) => {
+		if (product.id === productInfo.newInfo.id) {
+			let newProduct = { title: productInfo.newInfo.title, 
+												 price: productInfo.newInfo.price,
+												 quantity: productInfo.newInfo.quantity,
+												 id: productInfo.newInfo.id };
+			return newProduct;
+		} else {
+			return product;
+		}
+	})
+	return products;
+}
+
 const reducer = (state, action) => {
 	if (action.type === "ADD_TO_CART") {
 		state = addToCart(state, action);
@@ -126,8 +142,10 @@ const reducer = (state, action) => {
 		state = {productData: products, cartItems: state.cartItems}
 
 	}
-  //edit product
-  //add product
+  if (action.type === "EDIT_PRODUCT") {
+  	let products = editProduct(state.productData.slice(), action)
+  	state = {productData: products, cartItems: state.cartItems}
+  }
   return state;
 }
 
