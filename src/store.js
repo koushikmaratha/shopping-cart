@@ -99,11 +99,12 @@ const reducer = (state, action) => {
 	if (action.type === "REMOVE_FROM_CART") {
 		state = removeFromCart(state, action);
 	}
+	if (action.type === "CHECKOUT") {
+		state.cartItems = []
+	}
   //delete product
   //edit product
   //add product
-  //remove from cart
-  //checkout
   return state;
 }
 

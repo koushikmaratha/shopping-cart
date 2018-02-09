@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 
 import CartItemList from './CartItemList';
-
+import store from './store'
 class CartManager extends Component {
   checkout = (e) => {
     e.preventDefault();
-    this.props.checkout();
+    store.dispatch({
+      type: "CHECKOUT"
+    });
   }
   render() {
     return (
