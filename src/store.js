@@ -124,30 +124,32 @@ const editProduct = (products, productInfo) => {
 
 const reducer = (state, action) => {
 	if (action.type === "ADD_TO_CART") {
-		state = addToCart(state, action);
+		state = addToCart(state, action); // method returns an entirely new state
 	}
 	if (action.type === "REMOVE_FROM_CART") {
 		state = removeFromCart(state, action);
 	}
 	if (action.type === "CHECKOUT") {
-		state.cartItems = [] // is this mutation okay?
+		state.cartItems = [] // method mutates the state by replacing it with a new collection
 	}
 	if (action.type === "DELETE_PRODUCT") {
-		let products = deleteProductFrom(state.productData.slice(), action.value) // or is this
-		let cartItems = deleteProductFrom(state.cartItems.slice(), action.value)// better practice?
-		state = {productData: products, cartItems: cartItems}
+		let products = deleteProductFrom(state.productData.slice(), action.value) // method is given less info
+		let cartItems = deleteProductFrom(state.cartItems.slice(), action.value)// and returns a new collection
+		state = {productData: products, cartItems: cartItems} // the entire state object is replaced
 	}
 	if (action.type === "ADD_PRODUCT") {
-		let products = addProductTo(state.productData.slice(), action);
-		state = {productData: products, cartItems: state.cartItems}
+		let products = addProductTo(state.productData.slice(), action); // the entire state object is replaced even
+		state = {productData: products, cartItems: state.cartItems} // though only one property on it needed to be changed
 
 	}
   if (action.type === "EDIT_PRODUCT") {
-  	let products = editProduct(state.productData.slice(), action)
+  	let products = editProduct(state.productData.slice(), action) // same thing here
   	state = {productData: products, cartItems: state.cartItems}
   }
   return state;
 }
+
+// which of the above approaches is best practice?
 
 const initialState = {
 	productData: productData,
