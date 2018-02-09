@@ -13,7 +13,6 @@ class ProductManager extends Component {
           editProduct={this.props.editProduct}
         />
         <Form
-          addProduct={this.props.addProduct}
         />
       </div>
     );

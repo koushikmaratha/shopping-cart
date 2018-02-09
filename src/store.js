@@ -91,10 +91,19 @@ const removeFromCart = (state, action) => {
 	}
 }
 
-const deleteProductFrom = (collection, id) => {
+const deleteProductFrom = (collection, id) => { // returns new collection w/ object removed
 	return collection.filter((obj) => {
 		return obj.id !== id;
 	})
+}
+
+const addProductTo = (collection, productInfo) => { // returns new collection w/ object added
+	collection.push({
+		title: productInfo.title,
+		price: productInfo.price,
+		quantity: productInfo.quantity,
+	})
+	return collection;
 }
 
 const reducer = (state, action) => {
@@ -112,7 +121,11 @@ const reducer = (state, action) => {
 		let cartItems = deleteProductFrom(state.cartItems.slice(), action.value)// better practice?
 		state = {productData: products, cartItems: cartItems}
 	}
-  //delete product
+	if (action.type === "ADD_PRODUCT") {
+		let products = addProductTo(state.productData.slice(), action);
+		state = {productData: products, cartItems: state.cartItems}
+
+	}
   //edit product
   //add product
   return state;

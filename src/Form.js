@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import store from './store'
 
 class Form extends Component {
   constructor(props) {
@@ -22,7 +23,8 @@ class Form extends Component {
 
   addProduct = (e) => {
     e.preventDefault();
-    this.props.addProduct({
+    store.dispatch({
+      type: "ADD_PRODUCT",
       title: this.state.fields.title,
       price: this.state.fields.price,
       quantity: this.state.fields.quantity,
