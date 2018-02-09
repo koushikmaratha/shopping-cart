@@ -89,7 +89,12 @@ const removeFromCart = (state, action) => {
 			productData: productData,
 			cartItems: cartItems
 	}
+}
 
+const deleteProductFrom = (collection, id) => {
+	return collection.filter((obj) => {
+		return obj.id !== id;
+	})
 }
 
 const reducer = (state, action) => {
@@ -100,7 +105,12 @@ const reducer = (state, action) => {
 		state = removeFromCart(state, action);
 	}
 	if (action.type === "CHECKOUT") {
-		state.cartItems = []
+		state.cartItems = [] // is this mutation okay?
+	}
+	if (action.type === "DELETE_PRODUCT") {
+		let products = deleteProductFrom(state.productData.slice(), action.value) // or is this
+		let cartItems = deleteProductFrom(state.cartItems.slice(), action.value)// better practice?
+		state = {productData: products, cartItems: cartItems}
 	}
   //delete product
   //edit product

@@ -28,7 +28,10 @@ class Product extends Component {
 
   handleProductDeletion = (e) => {
     e.preventDefault();
-    this.props.deleteProduct(this.props.id)
+    store.dispatch({
+      type: "DELETE_PRODUCT",
+      value: this.props.id
+    })
   }
 
   showProduct = () => {
