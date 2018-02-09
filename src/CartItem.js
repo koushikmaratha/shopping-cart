@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import store from './store'
 
 class CartItem extends Component {
   constructor(props) {
@@ -8,7 +9,10 @@ class CartItem extends Component {
   }
   removeFromCart(e) {
     e.preventDefault();
-    this.props.removeFromCart(this.props.id);
+    store.dispatch({
+      type: "REMOVE_FROM_CART",
+      value: this.props.id
+    })
   }
   render() {
     return (

@@ -54,22 +54,54 @@ const addToCart = (state, action) => {
 				return product;
 			}
 		})
-		
+
 		return {
 			productData: productData,
 			cartItems: cartItems
 		}
 
+}
+
+const removeFromCart = (state, action) => {
+	let cartItems = state.cartItems;
+	let productData = state.productData;
+	let quantityToAddBack;
+
+	cartItems = cartItems.filter((item) => {
+		if (item.id !== action.value){
+			return true;
+		} else {
+			quantityToAddBack = item.quantity;
+		}
+	})
+
+	productData = productData.map((product) => {
+		if (product.id === action.value){
+			let temp = Object.assign({}, product);
+			temp.quantity += quantityToAddBack;
+			return temp;
+		} else {
+			return product;
+		}
+	})
+
+	return {
+			productData: productData,
+			cartItems: cartItems
+	}
 
 }
 
 const reducer = (state, action) => {
 	if (action.type === "ADD_TO_CART") {
-		state = addToCart(state, action)
+		state = addToCart(state, action);
+	}
+	if (action.type === "REMOVE_FROM_CART") {
+		state = removeFromCart(state, action);
 	}
   //delete product
   //edit product
-  //add to cart
+  //add product
   //remove from cart
   //checkout
   return state;
