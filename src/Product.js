@@ -21,7 +21,7 @@ class Product extends Component {
     if (this.props.quantity > 0){
       store.dispatch({
         type: "ADD_TO_CART",
-        value: this.props
+        value: this.props.id
       })
     };
   }

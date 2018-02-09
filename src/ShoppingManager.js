@@ -12,7 +12,7 @@ class ShoppingManager extends Component {
   
 
   componentWillMount() {
-    store.subscribe(() => (this.forceUpdate()))
+    store.subscribe(() => {this.forceUpdate()})
   }
 
   lastID = () => (this.state.productData[this.state.productData.length - 1].id)
@@ -117,9 +117,10 @@ class ShoppingManager extends Component {
   }
 
   render() {
-    const products = store.getState().productData
+    const products = store.getState().productData;
     
-    const cartItems = store.getState().cartItems
+    const cartItems = store.getState().cartItems;
+    console.log(cartItems)
     return (
     <main>
       <header className="header">
@@ -127,7 +128,6 @@ class ShoppingManager extends Component {
       </header>
       <ProductManager
         productData={products}
-        addToCart={this.addToCart}
         deleteProduct={this.deleteProduct}
         editProduct={this.editProduct}
         addProduct={this.addProduct}
