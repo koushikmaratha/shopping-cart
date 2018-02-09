@@ -20,43 +20,52 @@ function createStore(reducer, initialState) {
 }
 
 const addToCart = (state, action) => {
-	let newItem;
-	let newCartItems;
-	//check cartItems
-		// if it doesn't have product with action.vale
-			// find product with action.value (which is id) in productData
-			// if its quantity is 0, do nothing
-			// otherwise decrement its qty, make a copy of it
-			// increment the copy's quantity
-			// insert into cart Items
-		// otherwise increment qty in cartItems
+		let cartItems = state.cartItems;
+		let productData = state.productData;
 
-	if (state.cartItems.filter((item) => (item.id === action.value)).length) {
-		newCartItems = state.cartItems.map((item) => {
-			if (item.id === action.value) {
-				newItem = Object.assign({}, item);
-				newItem.quantity += 1;
-				return newItem;
+		if (cartItems.find((item) => { // already exists in cart
+			return item.id === action.value;
+		})) {
+			cartItems = cartItems.map((item) => {
+				if (item.id === action.value){
+					let newItem = Object.assign({}, item);
+					newItem.quantity += 1
+					return newItem
+				} else {
+					return item;
+				}
+			})
+
+		} else { // does not yet exist in cart
+			let newItem = Object.assign({}, productData.find((product) => {
+				return product.id === action.value;
+			}))
+			newItem.quantity = 1;
+			cartItems = [...state.cartItems, newItem]
+
+		}
+
+		productData = productData.map((product) => {
+			if (product.id === action.value) {
+				let newProduct = Object.assign({}, product);
+				newProduct.quantity -= 1;
+				return newProduct;
 			} else {
-				return item;
+				return product;
 			}
 		})
+		
+		return {
+			productData: productData,
+			cartItems: cartItems
+		}
 
-		return state.cartItems.concat(newCartItems);
-	} else {
-		newItem = state.productData.filter((product) => {
-			return product.id === action.value;
-		})
-		newItem[0] = Object.assign({}, newItem[0])
-		newItem[0].quantity = 1;
-		return state.cartItems.concat(newItem);
-	}
 
 }
 
 const reducer = (state, action) => {
 	if (action.type === "ADD_TO_CART") {
-		state = {...state, cartItems:  addToCart(state, action)}
+		state = addToCart(state, action)
 	}
   //delete product
   //edit product
